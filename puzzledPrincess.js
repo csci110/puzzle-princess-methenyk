@@ -7,20 +7,23 @@ class Marker extends Sprite {
         this.board = board;
         this.name = 'name';
         this.setImage(image);
-        this.x = 150;
-        this.y = 275;
+        this.x = this.startX = 150;
+        this.y = this.startY = 275;
     }
 }
 class PrincessMarker extends Marker {
     constructor(board) {
         super(board, "annFace.png", 'Princess Ann');
         this.dragging = false;
+        //this.board.x;
     }
     handleMouseLeftButtonDown() {
         this.dragging = true;
     }
     handleMouseLeftButtonUp() {
         this.dragging = false;
+        var row;
+        
     }
     handleGameLoop() {
         if (this.dragging === true) {
