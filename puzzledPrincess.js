@@ -10,19 +10,32 @@ class Marker extends Sprite {
         this.x = this.startX = 150;
         this.y = this.startY = 275;
     }
+    playInSquare(row, col) {
+        this.x = this.game.size - this.game.x;
+        this.y = this.game.size - this.game.y;
+
+    }
 }
 class PrincessMarker extends Marker {
     constructor(board) {
         super(board, "annFace.png", 'Princess Ann');
         this.dragging = false;
-        //this.board.x;
+        this.board.x;
+        this.board.y;
     }
     handleMouseLeftButtonDown() {
         this.dragging = true;
     }
     handleMouseLeftButtonUp() {
         this.dragging = false;
-        var row;
+        let row = Math.floor((this.y - this.board.y) / 150);
+        let col = Math.floor((this.x - this.board.x) / 150);
+        if (row > game.size && col > game.size) {
+            this.StartX;
+            this.StartY;
+            return;
+        }
+        this.playInSquare(row, col);
         
     }
     handleGameLoop() {
