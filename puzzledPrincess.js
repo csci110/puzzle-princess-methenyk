@@ -7,21 +7,21 @@ class Marker extends Sprite {
         this.board = board;
         this.name = 'name';
         this.setImage(image);
-        this.x = this.startX = 150;
-        this.y = this.startY = 275;
+        this.x = this.StartX = 150;
+        this.y = this.StartY = 275;
     }
-    playInSquare(row, col) {
-        this.x = this.game.size - this.game.x;
-        this.y = this.game.size - this.game.y;
+    // playInSquare(row, col) {
+    //     this.x = this.game.size - this.game.x;
+    //     this.y = this.game.size - this.game.y;
 
-    }
+    // }
 }
 class PrincessMarker extends Marker {
     constructor(board) {
         super(board, "annFace.png", 'Princess Ann');
         this.dragging = false;
-        this.board.x;
-        this.board.y;
+        // this.board.x;
+        // this.board.y;
     }
     handleMouseLeftButtonDown() {
         this.dragging = true;
@@ -30,13 +30,11 @@ class PrincessMarker extends Marker {
         this.dragging = false;
         let row = Math.floor((this.y - this.board.y) / 150);
         let col = Math.floor((this.x - this.board.x) / 150);
-        if (row > game.size && col > game.size) {
-            this.StartX;
-            this.StartY;
-            return;
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
+            this.x = this.StartX;
+            this.y = this.StartY;
         }
-        this.playInSquare(row, col);
-        
+        return true;
     }
     handleGameLoop() {
         if (this.dragging === true) {
