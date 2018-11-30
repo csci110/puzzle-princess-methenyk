@@ -12,28 +12,28 @@ class Marker extends Sprite {
         this.y = this.StartY = 275;
     }
     playInSquare(row, col) {
-        this.x = this.game.x - this.game.size;
-        this.y = this.game.y - this.game.size;
-
+        this.x = this.board.x + col * this.board.SquareSize + 50;
+        this.y = this.board.y + row * this.board.SquareSize + 50;
+        this.board.dataModel[row][col] = this.squareSymbol;
+        this.board.debugBoard();
     }
 }
 class PrincessMarker extends Marker {
     constructor(board) {
         super(board, "annFace.png", 'Princess Ann');
         this.dragging = false;
-        // this.board.x;
-        // this.board.y;
     }
     handleMouseLeftButtonDown() {
         this.dragging = true;
     }
     handleMouseLeftButtonUp() {
         this.dragging = false;
-        let row = Math.floor((this.y - this.board.y) / 150);
-        let col = Math.floor((this.x - this.board.x) / 150);
+        let row = Math.floor((this.y - this.board.y) / this.board.SquareSize);
+        let col = Math.floor((this.x - this.board.x) / this.board.SquareSize);
         if (row < 0 || row > 2 || col < 0 || col > 2) {
             this.x = this.StartX;
             this.y = this.StartY;
+            return true;
         }
         this.playInSquare(row, col);
     }
@@ -56,16 +56,16 @@ class TicTacToe extends Sprite {
         this.size = 3;
         this.activeMarker; // variable exists, but value is undefined
         this.emptySquareSymbol = '-';
+        this.dataModel = [];
+        for (let row = 0; row < this.size; row = row + 1) {
+            this.dataModel[row] = [];
+            for (let col = 0; col < this.size; col = col + 1) {
+                this.dataModel[row][col] = this.emptySquareSymbol;
+            }
+        }
     }
     takeTurns() {
         this.activeMarker = new PrincessMarker(this);
-    }
-    this.dataModel = [];
-    for (let row = 0; row < this.size; row = row + 1) {
-        this.dataModel[row] = [];
-        for (let col = 0; col < this.size; col = col + 1) {
-            this.dataModel[row][col] = this.emptySquareSymbol;
-        }
     }
     debugBoard() {
         let boardString = '\n';
