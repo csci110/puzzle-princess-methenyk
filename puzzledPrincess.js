@@ -54,12 +54,14 @@ class PrincessMarker extends Marker {
 class StrangerMarker extends Marker {
     consructor(board) {
         super(board, 'strangerFace.png', 'Stranger');
-        this.name = 'Stranger';
-        this.setImage('strangerFace.png');
-        this.board = board;
+        // this.name = 'Stranger';
+        // this.setImage('strangerFace.png');
+        // this.board = board;
     }
     handleGameLoop() {
-        if (this.inBoard) return;
+        if (this.inBoard) {
+            return true;
+        }
         // Mark a random empty square.
         let row, col;
         do {
@@ -103,9 +105,24 @@ class TicTacToe extends Sprite {
         console.log('The data model after ' + moveCount + ' move(s):' + boardString);
     }
     takeTurns() {
+        if (this.gameIsWon()) {
+            let message = '        Game Over.\n        ';
+            if (this.activeMarker instanceof PrincessMarker) {
+                message = message + 'The Princess wins.';
+            }
+            else if (this.activeMarker instanceof StrangerMarker) {
+                message = message + 'The Stranger wins.';
+            }
+            game.end(message);
+            return;
+        }
+        if (this.gameIsDrawn()) {
+            game.end('        Game Over.\n        The game ends in a draw.');
+            return;
+        }
         if (!this.activeMarker) {
             if (Math.random() > 0.5) this.activeMarker = new PrincessMarker(this);
-            else this.activeMarker = new StrangerMarker(this); 
+            else this.activeMarker = new StrangerMarker(this);
         }
         else if (this.activeMarker instanceof PrincessMarker) {
             // princess has moved; now it's stranger's turn
@@ -114,6 +131,22 @@ class TicTacToe extends Sprite {
         else if (this.activeMarker instanceof StrangerMarker) {
             // stranger has moved; now it's princess's turn
             this.activeMarker = new PrincessMarker(this);
+        }
+    }
+    gameIsWon() {
+        // Are there three of the same markers diagonally from upper left?
+        if (this.board[0][0] === this.board[1][1] &&
+            this.board[1][1] === this.board[2][2] &&
+            this.board[2][2] !== this.emptySquareSymbol
+        ) {
+            return true;
+        }
+        // Are there three of the same markers diagonally from upper right?
+        if (this.board[0][0] === this.board[1][1] &&
+            this.board[1][1] === this.board[2][2] &&
+            this.board[2][2] !== this.emptySquareSymbol
+        ) {
+            return true;
         }
     }
     markSquare(row, col, forOpponent) {}
